@@ -1,7 +1,5 @@
 <template>
     <div id="app">
-    <h2>2222</h2>
-
     </div>
 </template>
 
