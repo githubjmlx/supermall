@@ -1,10 +1,11 @@
 <template>
-  <div class="goods-item">
-    <img :src="goodsItem.show.img" alt />
+  <div class="goods-item" @click="goodsClick">
+    <!-- @load 加载事件 -->
+    <img :src="goodsItem.show.img" @load="imageLoad" />
     <div class="goods-info">
-      <p>{{goodsItem.title}}</p>
-      <span class="price">{{goodsItem.price}}</span>
-      <span class="collect">{{goodsItem.cfav}}</span>
+      <p>{{ goodsItem.title }}</p>
+      <span class="price">{{ goodsItem.price }}</span>
+      <span class="collect">{{ goodsItem.cfav }}</span>
     </div>
   </div>
 </template>
@@ -20,7 +21,14 @@ export default {
       },
     },
   },
-  methods: {},
+  methods: {
+    imageLoad() {
+      this.$bus.$emit("itemImageLoad");
+    },
+    goodsClick(){
+      this.$router.push('/detail/' + this.goodsItem.iid)  
+    }
+  },
   components: {},
 };
 </script>

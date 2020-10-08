@@ -1,3 +1,4 @@
+ <!-- 封装better-scroll 防止better-scroll不能使用-->
 <template>
   <!-- ref/children -->
   <div class="wrapper" ref="wrapper">
@@ -29,27 +30,37 @@ export default {
   },
   mounted() {
     this.scroll = new BScroll(this.$refs.wrapper, {
-      click: true,
+      // observeDOM:true,
+      // 监听点击
       probeType: this.probeType,
+      click: true,
       pullUpLoad: this.pullUpLoad,
     });
-    this.scroll.on("scroll", (position) => {
-      //   console.log(position);
-      this.$emit("scroll", position);
-    });
-    this.scroll.on("pullingUp", () => {
-      this.$emit("pullingUp");
-      // setTimeout(() => {
-      // this.scroll.finishPullUp()
-      // }, 2000)
-    });
+    if (this.probeType === 2 || this.probeType === 3) {
+      this.scroll.on("scroll", (position) => {
+        // console.log(position);
+        this.$emit("scroll", position);
+      });
+    }
+
+    console.log(this.scroll);
+    if (this.pullUpLoad) {
+      this.scroll.on("pullingUp", () => {
+        this.$emit("pullingUp");
+      });
+    }
   },
+
   methods: {
     scrollTo(x, y, time = 300) {
       this.scroll.scrollTo(x, y, time);
     },
     finishPullUp() {
-      this.scroll.finishPullUp();
+      this.scroll && this.scroll.finishPullUp();
+    },
+    refresh() {
+      console.log("refresh");
+      this.scroll && this.scroll.refresh();
     },
   },
 };
